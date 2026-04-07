@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "skills": {
+    "typescript-expert": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "computedHash": "136deef983dfdd5f312e6fe0850fc4e87400f3ddce7a8ee9082c426e958e83f0"
+    },
+    "vscode-extension-expert": {
+      "source": "s-hiraoku/vscode-sidebar-terminal",
+      "sourceType": "github",
+      "computedHash": "75c47e6af1766e54520759124efb1a66cfae9f739a2a8039b4c253b1bdfe0391"
+    }
+  }
+}
