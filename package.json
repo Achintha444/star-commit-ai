@@ -2,7 +2,7 @@
   "name": "star-commit-ai",
   "displayName": "Star Commit AI",
   "description": "Generate AI-powered commit messages from git diffs using Claude Code CLI",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "publisher": "AchinthaIsuru",
   "license": "MIT",
   "engines": {
@@ -110,6 +110,24 @@
       }
     }
   },
+  "icon": "resources/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AchinthaIsuru/star-commit-ai"
+  },
+  "homepage": "https://github.com/AchinthaIsuru/star-commit-ai#readme",
+  "bugs": {
+    "url": "https://github.com/AchinthaIsuru/star-commit-ai/issues"
+  },
+  "keywords": [
+    "git",
+    "commit",
+    "ai",
+    "claude",
+    "scm",
+    "commit message",
+    "conventional commits"
+  ],
   "scripts": {
     "build": "node esbuild.js",
     "build:production": "node esbuild.js --production",
@@ -119,6 +137,7 @@
     "@types/node": "^25.5.2",
     "@types/vscode": "^1.85.0",
     "esbuild": "^0.19.0",
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^3.0.0"
   }
 }
