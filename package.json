@@ -20,7 +20,8 @@
     "commands": [
       {
         "command": "star-commit-ai.generateCommitMessage",
-        "title": "Generate Commit Message",
+        "title": "Star Commit AI: Generate Commit Message",
+        "shortTitle": "Generate",
         "category": "Star Commit AI",
         "icon": {
           "dark": "resources/icons/star-commit.svg",
