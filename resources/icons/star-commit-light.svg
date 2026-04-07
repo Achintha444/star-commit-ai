@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="none">
+  <!--
+    Star Commit AI — light theme icon (dark fill).
+    Used in the SCM title bar when VS Code is using a light color theme.
+  -->
+  <path
+    d="M8 1.5 L9.545 5.635 L14 6.09 L10.75 9.06 L11.727 13.5 L8 11.25 L4.273 13.5 L5.25 9.06 L2 6.09 L6.455 5.635 Z"
+    fill="#424242"
+    stroke="#424242"
+    stroke-width="0.5"
+    stroke-linejoin="round"
+  />
+</svg>

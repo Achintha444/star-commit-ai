@@ -1,0 +1,33 @@
+# Source files — compiled output in dist/ is what gets packaged
+src/
+
+# Node modules are bundled by esbuild, not needed in the package
+node_modules/
+
+# VS Code workspace settings
+.vscode/
+
+# Claude Code agent configuration
+.claude/
+.agents/
+.agent/
+
+# Project documentation
+docs/
+
+# TypeScript source files (keep .d.ts declaration files)
+**/*.ts
+!**/*.d.ts
+
+# Git and editor config
+.gitignore
+.gitattributes
+
+# Build configuration
+tsconfig.json
+esbuild.js
+
+# Misc development files
+*.map
+.eslintrc*
+.prettierrc*

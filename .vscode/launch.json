@@ -1,0 +1,38 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      /**
+       * Extension Development Host configuration.
+       *
+       * Press F5 to launch a second VS Code window with the extension loaded.
+       * The extension is built by the preLaunchTask before the host starts.
+       */
+      "name": "Run Extension",
+      "type": "extensionHost",
+      "request": "launch",
+
+      /**
+       * Pre-launch task runs esbuild in watch mode so the extension is
+       * compiled (and recompiled on changes) before the host opens.
+       */
+      "preLaunchTask": "esbuild-watch",
+
+      /**
+       * Tell the debugger where to find compiled JavaScript files
+       * so breakpoints in TypeScript source map correctly.
+       */
+      "outFiles": [
+        "${workspaceFolder}/dist/**/*.js"
+      ],
+
+      /**
+       * Args passed to the Extension Development Host VS Code instance.
+       * --extensionDevelopmentPath tells it which extension to load.
+       */
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}"
+      ]
+    }
+  ]
+}

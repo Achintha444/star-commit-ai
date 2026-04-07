@@ -1,0 +1,123 @@
+{
+  "name": "star-commit-ai",
+  "displayName": "Star Commit AI",
+  "description": "Generate AI-powered commit messages from git diffs using Claude Code CLI",
+  "version": "0.1.0",
+  "publisher": "AchinthaIsuru",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "SCM Providers",
+    "Machine Learning"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onCommand:star-commit-ai.generateCommitMessage"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "star-commit-ai.generateCommitMessage",
+        "title": "Generate Commit Message",
+        "category": "Star Commit AI",
+        "icon": {
+          "dark": "resources/icons/star-commit.svg",
+          "light": "resources/icons/star-commit-light.svg"
+        }
+      },
+      {
+        "command": "star-commit-ai.selectModel",
+        "title": "Select AI Model",
+        "category": "Star Commit AI"
+      },
+      {
+        "command": "star-commit-ai.selectDiffMode",
+        "title": "Select Diff Mode",
+        "category": "Star Commit AI"
+      }
+    ],
+    "menus": {
+      "scm/title": [
+        {
+          "command": "star-commit-ai.generateCommitMessage",
+          "group": "navigation",
+          "when": "scmProvider == git"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Star Commit AI",
+      "properties": {
+        "starCommitAI.provider": {
+          "type": "string",
+          "default": "claude-code",
+          "enum": [
+            "claude-code"
+          ],
+          "enumDescriptions": [
+            "Use the Claude Code CLI to generate commit messages"
+          ],
+          "description": "The AI provider to use for generating commit messages"
+        },
+        "starCommitAI.model": {
+          "type": "string",
+          "default": "sonnet",
+          "enum": [
+            "opus",
+            "sonnet",
+            "haiku"
+          ],
+          "enumDescriptions": [
+            "Most capable model — best quality, slower",
+            "Balanced model — recommended default",
+            "Fastest model — lower quality, ideal for quick commits"
+          ],
+          "description": "The Claude model to use for commit message generation"
+        },
+        "starCommitAI.diffMode": {
+          "type": "string",
+          "default": "all",
+          "enum": [
+            "all",
+            "staged"
+          ],
+          "enumDescriptions": [
+            "Include all changes (staged + unstaged) relative to HEAD",
+            "Include only staged (indexed) changes"
+          ],
+          "description": "Which changes to include in the diff sent to the AI"
+        },
+        "starCommitAI.promptTemplate": {
+          "type": "string",
+          "default": "",
+          "description": "Custom prompt template for commit message generation. Use {diff} as the placeholder for the diff content. Leave empty to use the built-in prompt."
+        },
+        "starCommitAI.maxDiffLength": {
+          "type": "number",
+          "default": 8000,
+          "minimum": 100,
+          "maximum": 100000,
+          "description": "Maximum number of characters to send from the diff to the AI provider. Diffs longer than this will be truncated."
+        },
+        "starCommitAI.commitMessageLanguage": {
+          "type": "string",
+          "default": "english",
+          "description": "The natural language to use when generating commit messages (e.g. \"english\", \"spanish\", \"japanese\")"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.js",
+    "build:production": "node esbuild.js --production",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.19.0",
+    "typescript": "^5.3.0"
+  }
+}

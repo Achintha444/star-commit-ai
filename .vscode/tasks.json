@@ -1,0 +1,61 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      /**
+       * Watch task — used as the preLaunchTask for the Extension Development Host.
+       *
+       * Runs esbuild in watch mode so the bundle is rebuilt automatically
+       * whenever a TypeScript source file changes during a debug session.
+       */
+      "label": "esbuild-watch",
+      "type": "shell",
+      "command": "node esbuild.js --watch",
+      "isBackground": true,
+      "problemMatcher": {
+        /**
+         * Custom problem matcher that signals to VS Code when the initial
+         * build is complete (the "Watching..." log line), so the Extension
+         * Development Host can launch without waiting for a timeout.
+         */
+        "owner": "esbuild",
+        "pattern": {
+          "regexp": "^\\[esbuild\\].*$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\[esbuild\\] Watching",
+          "endsPattern": "^\\[esbuild\\] Watching"
+        }
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      }
+    },
+    {
+      /**
+       * One-shot development build task.
+       *
+       * Run this task (Ctrl+Shift+B) for a single incremental build
+       * without entering watch mode.
+       */
+      "label": "esbuild-build",
+      "type": "shell",
+      "command": "node esbuild.js",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

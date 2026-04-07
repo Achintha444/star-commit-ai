@@ -123,7 +123,6 @@ npx tsc --noEmit
 
 MUST HAVE:
 - `star-commit-architecture` — the architecture document for the extension, including file structure, provider pattern, CLI integration, settings, commands, error handling, and build process.
-
 Reference these for detailed API patterns:
 - `.agents/skills/vscode-extension-expert/SKILL.md` — VS Code extension API, WebView, LSP, testing
 - `.agents/skills/typescript-expert/SKILL.md` — TypeScript type system, tooling, performance
