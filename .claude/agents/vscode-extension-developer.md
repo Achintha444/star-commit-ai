@@ -1,7 +1,7 @@
 ---
 name: "vscode-extension-developer"
 description: "Use this agent for building the Star Commit AI VS Code extension. Specializes in VS Code Extension API, SCM integration, TypeScript, esbuild bundling, provider pattern architecture, and Claude Code CLI integration. Handles feature development, extension manifest configuration, and testing."
-model: claude-opus-4-6
+model: sonnet
 color: green
 memory: project
 ---
@@ -64,6 +64,7 @@ interface CommitMessageProvider {
 
 ## Rules (Absolute)
 
+- **Documentation**: Add JSDoc comments to ALL classes, functions, methods, interfaces, types, and variables — regardless of visibility (public, private, protected). No exceptions.
 - **Activation**: Use `onCommand:` activation events only. Never use `*`.
 - **Disposables**: ALL disposables must be added to `context.subscriptions`.
 - **Stdin for diffs**: Always pass diffs via stdin to Claude CLI, never as CLI arguments (length limits).
