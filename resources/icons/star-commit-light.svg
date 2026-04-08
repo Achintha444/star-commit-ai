@@ -1,13 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="none">
-  <!--
-    Star Commit AI — light theme icon (dark fill).
-    Used in the SCM title bar when VS Code is using a light color theme.
-  -->
-  <path
-    d="M8 1.5 L9.545 5.635 L14 6.09 L10.75 9.06 L11.727 13.5 L8 11.25 L4.273 13.5 L5.25 9.06 L2 6.09 L6.455 5.635 Z"
-    fill="#424242"
-    stroke="#424242"
-    stroke-width="0.5"
-    stroke-linejoin="round"
-  />
+<svg width="104" height="96" viewBox="0 0 104 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M52 0C55 34 70 44 104 48C70 52 55 62 52 96C49 62 34 52 0 48C34 44 49 34 52 0Z" fill="url(#paint0_linear_4_147)"/>
+<path opacity="0.85" d="M90 0C91 9 95 13 104 14C95 15 91 19 90 28C89 19 85 15 76 14C85 13 89 9 90 0Z" fill="#FEF3C7"/>
+<path opacity="0.65" d="M16 72C16.5 77 19 79.5 24 80C19 80.5 16.5 83 16 88C15.5 83 13 80.5 8 80C13 79.5 15.5 77 16 72Z" fill="#FEF3C7"/>
+<defs>
+<linearGradient id="paint0_linear_4_147" x1="31.2" y1="3.71933e-07" x2="67.3845" y2="97.9996" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FEF3C7"/>
+<stop offset="0.4" stop-color="#FCD34D"/>
+<stop offset="1" stop-color="#F59E0B"/>
+</linearGradient>
+</defs>
 </svg>
