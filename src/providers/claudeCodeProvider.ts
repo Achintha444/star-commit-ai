@@ -109,7 +109,7 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
       let child;
 
       try {
-        child = spawn("claude", ["--version"], { stdio: "ignore" });
+        child = spawn("claude", ["--version"], { stdio: "ignore", shell: true });
       } catch {
         // spawn itself can throw synchronously on some platforms when the
         // executable cannot be found before the async ENOENT event fires.
@@ -172,6 +172,7 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
       const child = spawn("claude", ["-p", "--model", model], {
         stdio: ["pipe", "pipe", "pipe"],
         signal: controller.signal,
+        shell: true,
       });
 
       /** Accumulated stdout chunks from the Claude CLI process. */
