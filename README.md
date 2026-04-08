@@ -8,7 +8,7 @@
   <strong>Auto-generate smart commit messages from git diffs using Claude AI — one click from the VS Code Source Control panel.</strong>
 </p>
 
-[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/AchinthaIsuru.star-commit?label=VS%20Code%20Marketplace&color=7C3AED)](https://marketplace.visualstudio.com/items?itemName=AchinthaIsuru.star-commit-ai)
+[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/AchinthaIsuru.star-commit?label=VS%20Code%20Marketplace&color=7C3AED)](https://marketplace.visualstudio.com/items?itemName=AchinthaIsuru.star-commit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
 No more writing commit messages manually. Star Commit AI reads your changes, understands the context, and generates meaningful [Conventional Commits](https://www.conventionalcommits.org/) messages instantly.
