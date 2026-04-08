@@ -1,5 +1,5 @@
 {
-  "name": "star-commit-ai",
+  "name": "star-git-commit-ai",
   "displayName": "Star Commit AI",
   "description": "Auto-generate smart commit messages from git diffs using Claude AI. One-click from the Source Control panel. Supports Conventional Commits.",
   "version": "1.0.1",
@@ -123,6 +123,7 @@
   },
   "keywords": [
     "git",
+    "github",
     "commit",
     "ai",
     "claude",
