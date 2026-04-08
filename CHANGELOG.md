@@ -1,9 +1,11 @@
 # Changelog
 
-## [1.0.1] - 2026-04-08
+## [1.0.2] - 2026-04-08
 
 ### Fixed
 - Fixed Claude Code CLI not being detected on macOS when installed via npm global (`shell: true` for spawn)
+
+## [1.0.1] - 2026-04-08
 
 ### Changed
 - Redesigned extension icon with modern rounded-square shape, gold sparkle star, and accent sparkles
