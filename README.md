@@ -1,6 +1,17 @@
-# Star Commit AI
+<p align="center">
+  <img src="resources/icon.png" alt="Star Commit AI" width="128" />
+</p>
 
-Generate AI-powered commit messages from your git diffs, directly from the VS Code Source Control panel.
+<h1 align="center">Star Commit AI</h1>
+
+<p align="center">
+  <strong>Auto-generate smart commit messages from git diffs using Claude AI — one click from the VS Code Source Control panel.</strong>
+</p>
+
+[![VS Code Marketplace](https://img.shields.io/visual-studio-marketplace/v/AchinthaIsuru.star-commit-ai?label=VS%20Code%20Marketplace&color=7C3AED)](https://marketplace.visualstudio.com/items?itemName=AchinthaIsuru.star-commit-ai)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+
+No more writing commit messages manually. Star Commit AI reads your changes, understands the context, and generates meaningful [Conventional Commits](https://www.conventionalcommits.org/) messages instantly.
 
 ---
 
@@ -66,7 +77,7 @@ Follow the prompts to complete authentication. The extension will use the same a
 1. Open a git repository in VS Code.
 2. Make some changes to your files.
 3. Open the Source Control panel (`Ctrl+Shift+G` / `Cmd+Shift+G`).
-4. Click the star icon in the Source Control title bar.
+4. Click the "Star Commit AI" icon in the Source Control title bar.
 5. The generated commit message will appear in the commit input box, ready to review and submit.
 
 ---
@@ -114,6 +125,17 @@ The extension is built on a provider abstraction layer, making it straightforwar
 - **Google (Gemini)** — via the Gemini API with the same secure key management pattern.
 
 Model selection will become dynamic based on the active provider's available models when additional providers are added.
+
+---
+
+## Why Star Commit AI?
+
+- **Save time** — stop writing commit messages by hand for every change
+- **Consistent style** — every message follows Conventional Commits format automatically
+- **Context-aware** — Claude reads the actual diff, not just file names, producing accurate descriptions
+- **Zero config** — install, click the star, done. No API keys to manage (uses your Claude Code CLI session)
+- **Multilingual** — generate commit messages in any language (English, Spanish, Japanese, etc.)
+- **Privacy-first** — diffs are sent directly to Claude via your authenticated CLI session, not through any third-party server
 
 ---
 

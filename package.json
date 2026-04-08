@@ -1,8 +1,8 @@
 {
   "name": "star-commit-ai",
   "displayName": "Star Commit AI",
-  "description": "Generate AI-powered commit messages from git diffs using Claude Code CLI",
-  "version": "1.0.0",
+  "description": "Auto-generate smart commit messages from git diffs using Claude AI. One-click from the Source Control panel. Supports Conventional Commits.",
+  "version": "1.0.1",
   "publisher": "AchinthaIsuru",
   "license": "MIT",
   "engines": {
@@ -10,7 +10,9 @@
   },
   "categories": [
     "SCM Providers",
-    "Machine Learning"
+    "Machine Learning",
+    "AI",
+    "Other"
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
@@ -124,9 +126,11 @@
     "commit",
     "ai",
     "claude",
-    "scm",
     "commit message",
-    "conventional commits"
+    "conventional commits",
+    "auto commit",
+    "source control",
+    "diff"
   ],
   "scripts": {
     "build": "node esbuild.js",

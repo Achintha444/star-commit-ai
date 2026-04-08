@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.1] - 2026-04-08
+
+### Changed
+- Redesigned extension icon with modern rounded-square shape, gold sparkle star, and accent sparkles
+- Updated SCM title bar icons for both dark and light themes
+
 ## [1.0.0] - 2026-04-07
 
 ### Added
