@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="resources/icon.png" alt="Star Commit AI" width="128" />
-</p>
-
 <h1 align="center">Star Commit AI</h1>
 
 <p align="center">
