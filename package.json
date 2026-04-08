@@ -1,6 +1,6 @@
 {
-  "name": "star-git-commit-ai",
-  "displayName": "Star Commit AI",
+  "name": "star-commit",
+  "displayName": "Star Commit",
   "description": "Auto-generate smart commit messages from git diffs using Claude AI. One-click from the Source Control panel. Supports Conventional Commits.",
   "version": "1.0.1",
   "publisher": "AchinthaIsuru",
@@ -122,6 +122,8 @@
     "url": "https://github.com/Achintha444/star-commit-ai/issues"
   },
   "keywords": [
+    "star commit ai",
+    "star commit",
     "git",
     "github",
     "commit",
