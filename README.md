@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="resources/icon.png" alt="Star Commit AI" width="64" />
+</p>
+
 <h1 align="center">Star Commit AI</h1>
 
 <p align="center">
@@ -54,8 +58,14 @@ Search for "Star Commit AI" in the VS Code Extensions panel and install it.
 
 **Step 2 — Install the Claude Code CLI**
 
-Star Commit AI relies on the Claude Code CLI to communicate with the AI. Install it globally via npm:
+Star Commit AI relies on the Claude Code CLI to communicate with the AI. Install it using either method:
 
+**Option A — Standalone installer (recommended)**
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+**Option B — npm global install**
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
@@ -108,7 +118,7 @@ All commands are available from the VS Code Command Palette (`Ctrl+Shift+P` / `C
 ## Requirements
 
 - **VS Code** 1.85.0 or later.
-- **Claude Code CLI** installed and authenticated (`npm install -g @anthropic-ai/claude-code`).
+- **Claude Code CLI** installed and authenticated (via [standalone installer](https://claude.ai/install.sh) or `npm install -g @anthropic-ai/claude-code`).
 - A git repository open in your workspace.
 
 ---
