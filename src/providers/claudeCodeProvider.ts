@@ -7,7 +7,10 @@
  * argument-length limits and escaping issues.
  */
 
-import { spawn } from "child_process";
+import { spawn, execFileSync } from "child_process";
+import { existsSync } from "fs";
+import { join } from "path";
+import { homedir } from "os";
 import type { CommitMessageProvider, GenerateOptions, ProviderModel } from "./types";
 
 /**
@@ -30,6 +33,71 @@ const DEFAULT_PROMPT_TEMPLATE =
   "specification (e.g. feat, fix, chore, docs, refactor, test, style, perf). " +
   "Output ONLY the commit message — no explanations, no code fences, no extra text.\n\n" +
   "Git diff:\n{diff}";
+
+/**
+ * Cached resolved path to the `claude` binary. Computed once by
+ * {@link resolveClaudePath} and reused for all subsequent spawn calls.
+ */
+let cachedClaudePath: string | null = null;
+
+/**
+ * Resolves the absolute path to the `claude` CLI binary.
+ *
+ * Checks in order:
+ * 1. `which claude` via the user's login shell (picks up PATH from .zshrc/.bashrc)
+ * 2. `~/.claude/bin/claude` (standalone installer: `curl ... | bash`)
+ * 3. npm global bin directory (npm global install)
+ * 4. Falls back to bare `"claude"` and hopes the OS PATH has it
+ *
+ * @returns The resolved path to the `claude` binary.
+ */
+function resolveClaudePath(): string {
+  if (cachedClaudePath) {
+    return cachedClaudePath;
+  }
+
+  // 1. Try resolving via the user's default shell (handles .zshrc/.bashrc PATH additions)
+  const userShell = process.env.SHELL || "/bin/sh";
+  try {
+    const resolved = execFileSync(userShell, ["-lc", "which claude"], {
+      encoding: "utf8",
+      timeout: 5000,
+    }).trim();
+    if (resolved && existsSync(resolved)) {
+      cachedClaudePath = resolved;
+      return resolved;
+    }
+  } catch {
+    // Shell lookup failed — try known paths
+  }
+
+  // 2. Standalone installer path: ~/.claude/bin/claude
+  const standalonePath = join(homedir(), ".claude", "bin", "claude");
+  if (existsSync(standalonePath)) {
+    cachedClaudePath = standalonePath;
+    return standalonePath;
+  }
+
+  // 3. npm global bin — try to discover it
+  try {
+    const npmBin = execFileSync("npm", ["bin", "-g"], {
+      encoding: "utf8",
+      timeout: 5000,
+      shell: true,
+    }).trim();
+    const npmClaudePath = join(npmBin, "claude");
+    if (existsSync(npmClaudePath)) {
+      cachedClaudePath = npmClaudePath;
+      return npmClaudePath;
+    }
+  } catch {
+    // npm not available or failed
+  }
+
+  // 4. Fallback — bare command name
+  cachedClaudePath = "claude";
+  return "claude";
+}
 
 /**
  * The three Claude models exposed by this provider, ordered from most capable
@@ -106,10 +174,11 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
    */
   public isAvailable(): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
+      const claudePath = resolveClaudePath();
       let child;
 
       try {
-        child = spawn("claude", ["--version"], { stdio: "ignore", shell: true });
+        child = spawn(claudePath, ["--version"], { stdio: "ignore" });
       } catch {
         // spawn itself can throw synchronously on some platforms when the
         // executable cannot be found before the async ENOENT event fires.
@@ -169,10 +238,10 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
         reject(new Error("Commit message generation timed out after 30 seconds."));
       }, GENERATION_TIMEOUT_MS);
 
-      const child = spawn("claude", ["-p", "--model", model], {
+      const claudePath = resolveClaudePath();
+      const child = spawn(claudePath, ["-p", "--model", model], {
         stdio: ["pipe", "pipe", "pipe"],
         signal: controller.signal,
-        shell: true,
       });
 
       /** Accumulated stdout chunks from the Claude CLI process. */

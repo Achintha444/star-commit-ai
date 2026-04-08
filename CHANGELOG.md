@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.3] - 2026-04-08
+
+### Fixed
+- Fixed Claude CLI not found for standalone installer (`curl ... | bash`) users by resolving binary path through login shell, `~/.claude/bin/`, and npm global bin fallback
+
 ## [1.0.2] - 2026-04-08
 
 ### Fixed
