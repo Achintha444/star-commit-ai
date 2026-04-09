@@ -2,7 +2,7 @@
   "name": "star-commit",
   "displayName": "Star Commit",
   "description": "Auto-generate smart commit messages from git diffs using Claude AI. One-click from the Source Control panel. Supports Conventional Commits.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "publisher": "AchinthaIsuru",
   "license": "MIT",
   "engines": {

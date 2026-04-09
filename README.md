@@ -37,7 +37,7 @@ Choose the Claude model that fits your workflow:
 
 Control what gets sent to the AI:
 
-- **All changes** (default) — includes both staged and unstaged changes relative to HEAD.
+- **All changes** (default) — includes both staged and unstaged changes relative to HEAD, plus any untracked (new) files.
 - **Staged only** — includes only changes that have been added to the index.
 
 ### Custom Prompt Templates

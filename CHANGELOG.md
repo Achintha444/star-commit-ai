@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.6] - 2026-04-09
+
+### Fixed
+- Fixed "All changes" diff mode not including untracked (new) files — previously only tracked file modifications were sent to the AI, causing commit messages to miss newly added files
+- Untracked files are now formatted as synthetic unified diffs and appended to the tracked diff
+- Binary files are automatically skipped; capped at 100 untracked files to avoid oversized diffs
+
 ## [1.0.3] - 2026-04-08
 
 ### Fixed
