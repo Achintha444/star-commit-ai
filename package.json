@@ -15,9 +15,6 @@
     "Other"
   ],
   "main": "./dist/extension.js",
-  "activationEvents": [
-    "onCommand:star-commit-ai.generateCommitMessage"
-  ],
   "contributes": {
     "commands": [
       {
