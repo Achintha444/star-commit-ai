@@ -1,11 +1,22 @@
 # Changelog
 
+## [1.0.7] - 2026-04-09
+
+### Fixed
+- Overhauled Claude CLI path resolution for robust cross-platform detection
+- Added known install paths for Homebrew (Apple Silicon and Intel), Volta, and pnpm global installs
+- Bare `"claude"` fallback is no longer cached — allows retry after user installs CLI without restarting VS Code
+- `isAvailable()` short-circuits when an absolute path is resolved, avoiding unnecessary spawn of `claude --version`
+- Added 5-second timeout to `isAvailable()` spawn to prevent indefinite hang when CLI triggers auth prompt with no TTY
+- Improved error message to suggest restarting VS Code and show both install methods (curl installer and npm)
+
 ## [1.0.6] - 2026-04-09
 
 ### Fixed
 - Fixed "All changes" diff mode not including untracked (new) files — previously only tracked file modifications were sent to the AI, causing commit messages to miss newly added files
 - Untracked files are now formatted as synthetic unified diffs and appended to the tracked diff
 - Binary files are automatically skipped; capped at 100 untracked files to avoid oversized diffs
+- Fixed `stdout maxBuffer length exceeded` error when diffing large changesets by increasing buffer limit to 10 MB
 
 ## [1.0.3] - 2026-04-08
 

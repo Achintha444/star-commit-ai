@@ -201,8 +201,8 @@ async function runGenerateFlow(registry: ProviderRegistry): Promise<void> {
 
   if (!available) {
     throw new Error(
-      `${provider.displayName} is not available. ` +
-        `Install the Claude Code CLI with: npm install -g @anthropic-ai/claude-code`,
+      `${provider.displayName} is not available. If already installed, try restarting VS Code. ` +
+        `Install via: curl -fsSL https://claude.ai/install.sh | bash  or  npm install -g @anthropic-ai/claude-code`,
     );
   }
 

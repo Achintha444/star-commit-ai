@@ -313,7 +313,10 @@ async function runGitDiff(
   args: string[],
   options: { cwd: string },
 ): Promise<string> {
-  const { stdout } = await execFile('git', args, options);
+  const { stdout } = await execFile('git', args, {
+    ...options,
+    maxBuffer: 10 * 1024 * 1024, // 10 MB
+  });
   return stdout;
 }
 

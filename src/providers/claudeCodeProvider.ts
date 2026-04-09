@@ -45,9 +45,13 @@ let cachedClaudePath: string | null = null;
  *
  * Checks in order:
  * 1. `which claude` via the user's login shell (picks up PATH from .zshrc/.bashrc)
- * 2. `~/.claude/bin/claude` (standalone installer: `curl ... | bash`)
+ * 2. Known install locations: standalone installer paths (`~/.local/bin/claude`,
+ *    `~/.claude/bin/claude`), Homebrew Apple Silicon (`/opt/homebrew/bin/claude`),
+ *    Homebrew Intel / system npm global (`/usr/local/bin/claude`), Volta
+ *    (`~/.volta/bin/claude`), and pnpm global (`~/.local/share/pnpm/claude`)
  * 3. npm global bin directory (npm global install)
- * 4. Falls back to bare `"claude"` and hopes the OS PATH has it
+ * 4. Falls back to bare `"claude"` without caching, allowing a retry on the
+ *    next call (e.g. after the user installs the CLI without restarting VS Code)
  *
  * @returns The resolved path to the `claude` binary.
  */
@@ -71,11 +75,20 @@ function resolveClaudePath(): string {
     // Shell lookup failed — try known paths
   }
 
-  // 2. Standalone installer path: ~/.claude/bin/claude
-  const standalonePath = join(homedir(), ".claude", "bin", "claude");
-  if (existsSync(standalonePath)) {
-    cachedClaudePath = standalonePath;
-    return standalonePath;
+  // 2. Known install locations across package managers and platforms
+  const knownPaths = [
+    join(homedir(), ".local", "bin", "claude"),        // Standalone installer (curl | bash)
+    join(homedir(), ".claude", "bin", "claude"),        // Legacy standalone path
+    "/opt/homebrew/bin/claude",                         // Homebrew Apple Silicon
+    "/usr/local/bin/claude",                            // Homebrew Intel / system npm global
+    join(homedir(), ".volta", "bin", "claude"),          // Volta
+    join(homedir(), ".local", "share", "pnpm", "claude"), // pnpm global
+  ];
+  for (const knownPath of knownPaths) {
+    if (existsSync(knownPath)) {
+      cachedClaudePath = knownPath;
+      return knownPath;
+    }
   }
 
   // 3. npm global bin — try to discover it
@@ -95,8 +108,7 @@ function resolveClaudePath(): string {
   }
 
   // 4. Fallback — bare command name
-  cachedClaudePath = "claude";
-  return "claude";
+  return "claude"; // Don't cache — allow retry on next call
 }
 
 /**
@@ -165,9 +177,15 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
   /**
    * Checks whether the Claude Code CLI is installed and reachable on `PATH`.
    *
-   * Spawns `claude --version` and resolves to `true` if the process exits
-   * with code 0. Any spawn error (e.g. `ENOENT`) or non-zero exit code
-   * resolves to `false`.
+   * If `resolveClaudePath()` returns an absolute path (i.e. the binary was
+   * located via the shell, a known install location, or npm bin), the check
+   * short-circuits immediately with `true` — the `existsSync` in
+   * `resolveClaudePath` already confirmed the file exists.
+   *
+   * When the path could not be resolved (bare `"claude"` fallback), `claude
+   * --version` is spawned and given 5 seconds to exit with code 0. This
+   * avoids hanging indefinitely when the CLI triggers an auth prompt with no
+   * TTY attached.
    *
    * @returns A promise that resolves to `true` when the CLI is available,
    *   `false` otherwise.
@@ -175,8 +193,14 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
   public isAvailable(): Promise<boolean> {
     return new Promise<boolean>((resolve) => {
       const claudePath = resolveClaudePath();
-      let child;
 
+      // If we resolved an absolute path (not bare "claude"), trust the existsSync check
+      if (claudePath !== "claude") {
+        resolve(true);
+        return;
+      }
+
+      let child;
       try {
         child = spawn(claudePath, ["--version"], { stdio: "ignore" });
       } catch {
@@ -186,8 +210,20 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
         return;
       }
 
-      child.on("error", () => resolve(false));
-      child.on("close", (code) => resolve(code === 0));
+      /** Timer that kills the child and resolves false if the CLI hangs. */
+      const timeoutHandle = setTimeout(() => {
+        child.kill();
+        resolve(false);
+      }, 5000);
+
+      child.on("error", () => {
+        clearTimeout(timeoutHandle);
+        resolve(false);
+      });
+      child.on("close", (code) => {
+        clearTimeout(timeoutHandle);
+        resolve(code === 0);
+      });
     });
   }
 

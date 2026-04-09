@@ -48,6 +48,8 @@ node esbuild.js --production
 - Command namespace: `star-commit-ai.*`
 - Default diff mode: all changes (not staged-only)
 - Default model: sonnet
+- CLI path resolution: `resolveClaudePath()` in `claudeCodeProvider.ts` checks login shell, known paths (~/.local/bin, /opt/homebrew/bin, /usr/local/bin, Volta, pnpm), npm global bin, then bare fallback (uncached for retry)
+- DiffMode.All includes untracked files via synthetic unified diffs (binary files skipped, capped at 100)
 
 ## Skills
 

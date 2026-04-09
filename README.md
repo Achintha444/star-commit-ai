@@ -118,7 +118,7 @@ All commands are available from the VS Code Command Palette (`Ctrl+Shift+P` / `C
 ## Requirements
 
 - **VS Code** 1.85.0 or later.
-- **Claude Code CLI** installed and authenticated (via [standalone installer](https://claude.ai/install.sh) or `npm install -g @anthropic-ai/claude-code`).
+- **Claude Code CLI** installed and authenticated. Supported install methods: [standalone installer](https://claude.ai/install.sh), `npm install -g @anthropic-ai/claude-code`, Homebrew, Volta, or pnpm. The extension auto-detects the CLI location.
 - A git repository open in your workspace.
 
 ---
@@ -140,6 +140,7 @@ Model selection will become dynamic based on the active provider's available mod
 - **Consistent style** — every message follows Conventional Commits format automatically
 - **Context-aware** — Claude reads the actual diff, not just file names, producing accurate descriptions
 - **Zero config** — install, click the star, done. No API keys to manage (uses your Claude Code CLI session)
+- **Works with any install method** — automatically detects Claude CLI whether installed via standalone installer, npm, Homebrew, Volta, or pnpm
 - **Multilingual** — generate commit messages in any language (English, Spanish, Japanese, etc.)
 - **Privacy-first** — diffs are sent directly to Claude via your authenticated CLI session, not through any third-party server
 
