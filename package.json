@@ -2,7 +2,7 @@
   "name": "star-commit",
   "displayName": "Star Commit",
   "description": "Auto-generate smart commit messages from git diffs using Claude AI. One-click from the Source Control panel. Supports Conventional Commits.",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "publisher": "AchinthaIsuru",
   "license": "MIT",
   "engines": {
@@ -105,6 +105,11 @@
           "type": "string",
           "default": "english",
           "description": "The natural language to use when generating commit messages (e.g. \"english\", \"spanish\", \"japanese\")"
+        },
+        "starCommitAI.includeCommitBody": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include a detailed commit body with bullet-point breakdown of changes after the subject line. When disabled, only a single-line subject is generated."
         }
       }
     }

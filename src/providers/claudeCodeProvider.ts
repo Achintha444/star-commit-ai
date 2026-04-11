@@ -12,6 +12,7 @@ import { existsSync } from "fs";
 import { join } from "path";
 import { homedir } from "os";
 import type { CommitMessageProvider, GenerateOptions, ProviderModel } from "./types";
+import prompts from "../prompts/prompts.json";
 
 /**
  * Timeout in milliseconds for a single commit-message generation request.
@@ -19,20 +20,6 @@ import type { CommitMessageProvider, GenerateOptions, ProviderModel } from "./ty
  * is killed and an error is thrown.
  */
 const GENERATION_TIMEOUT_MS = 30_000;
-
-/**
- * Default prompt template used when the caller does not supply a custom one.
- *
- * The literal `{diff}` token is replaced at runtime with the (possibly
- * truncated) diff string. The template instructs the model to follow the
- * Conventional Commits specification and to emit only the commit message —
- * no explanations, no markdown fences.
- */
-const DEFAULT_PROMPT_TEMPLATE =
-  "Generate a concise git commit message in {language} following the Conventional Commits " +
-  "specification (e.g. feat, fix, chore, docs, refactor, test, style, perf). " +
-  "Output ONLY the commit message — no explanations, no code fences, no extra text.\n\n" +
-  "Git diff:\n{diff}";
 
 /**
  * Cached resolved path to the `claude` binary. Computed once by
@@ -238,10 +225,15 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
    * @param options - Additional generation parameters.
    * @param options.promptTemplate - Custom template. The tokens `{diff}` and
    *   `{language}` are replaced at runtime. Omit to use the built-in prompt.
+   *   When provided, `includeCommitBody` is ignored.
    * @param options.maxDiffLength - Character cap applied to `diff` before it
    *   is embedded in the prompt. Defaults to `8000`.
    * @param options.language - Natural language for the output message.
    *   Defaults to `"english"`.
+   * @param options.includeCommitBody - When `true` (default), the generated
+   *   message includes a blank line followed by a bullet-point body. When
+   *   `false`, only the single-line subject is generated. Ignored when
+   *   `promptTemplate` is supplied.
    * @returns A promise that resolves to the trimmed commit message string.
    * @throws An {@link Error} when the CLI process exits with a non-zero code,
    *   when the 30-second timeout is exceeded, or when stdin cannot be written.
@@ -262,7 +254,12 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
           : diff;
 
       /** The full prompt sent to the model via stdin. */
-      const prompt = buildPrompt(truncatedDiff, language, options.promptTemplate);
+      const prompt = buildPrompt(
+        truncatedDiff,
+        language,
+        options.promptTemplate,
+        options.includeCommitBody,
+      );
 
       /** AbortController used to enforce the generation timeout. */
       const controller = new AbortController();
@@ -341,20 +338,47 @@ export class ClaudeCodeProvider implements CommitMessageProvider {
 /**
  * Constructs the full prompt string to send to the Claude CLI via stdin.
  *
- * Uses the caller-supplied `promptTemplate` when provided and non-empty;
- * otherwise falls back to {@link DEFAULT_PROMPT_TEMPLATE}. The tokens
- * `{diff}` and `{language}` are replaced with their runtime values.
+ * Template selection follows this priority order:
+ * 1. `promptTemplate` — when the caller supplies a non-empty custom template,
+ *    it is always used, regardless of `includeCommitBody`. This lets advanced
+ *    users retain full control over the prompt format.
+ * 2. `prompts.subjectWithBody` — used when `includeCommitBody` is `true` (or
+ *    omitted, since `true` is the default). Instructs the model to produce a
+ *    subject line followed by a blank line and a bullet-point body.
+ * 3. `prompts.subjectOnly` — used when `includeCommitBody` is explicitly
+ *    `false`. Instructs the model to produce a single-line subject.
+ *
+ * In all cases the tokens `{diff}` and `{language}` are substituted with
+ * their runtime values before the prompt is returned.
  *
  * @param diff - The (possibly truncated) git diff string.
  * @param language - Natural language for the generated message (e.g. `"english"`).
  * @param promptTemplate - Optional custom template from extension settings.
+ *   When non-empty this takes precedence over `includeCommitBody`.
+ * @param includeCommitBody - When `true` (default), the body template is used.
+ *   When `false`, the subject-only template is used. Ignored when
+ *   `promptTemplate` is provided.
  * @returns The fully resolved prompt string ready to be written to stdin.
  */
-function buildPrompt(diff: string, language: string, promptTemplate?: string): string {
-  const template =
-    promptTemplate !== undefined && promptTemplate.trim().length > 0
-      ? promptTemplate
-      : DEFAULT_PROMPT_TEMPLATE;
+function buildPrompt(
+  diff: string,
+  language: string,
+  promptTemplate?: string,
+  includeCommitBody?: boolean,
+): string {
+  /** Resolved template: custom > body > subject-only. */
+  let template: string;
+
+  if (promptTemplate !== undefined && promptTemplate.trim().length > 0) {
+    // Custom template always wins.
+    template = promptTemplate;
+  } else if (includeCommitBody === false) {
+    // Explicit opt-out of the body — use the concise subject-only template.
+    template = prompts.subjectOnly;
+  } else {
+    // Default (true or omitted) — use the richer subject + body template.
+    template = prompts.subjectWithBody;
+  }
 
   return template.replace("{diff}", diff).replace("{language}", language);
 }

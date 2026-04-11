@@ -121,6 +121,9 @@ async function runGenerateFlow(registry: ProviderRegistry): Promise<void> {
   /** Natural language for the generated commit message. */
   const commitMessageLanguage = settings.commitMessageLanguage;
 
+  /** Whether to append a bullet-point body after the subject line. */
+  const includeCommitBody = settings.includeCommitBody;
+
   // -------------------------------------------------------------------------
   // 2. Discover git repositories
   // -------------------------------------------------------------------------
@@ -215,6 +218,7 @@ async function runGenerateFlow(registry: ProviderRegistry): Promise<void> {
     promptTemplate,
     maxDiffLength,
     language: commitMessageLanguage,
+    includeCommitBody,
   });
 
   // -------------------------------------------------------------------------

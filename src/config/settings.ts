@@ -120,4 +120,18 @@ export class Settings {
   get commitMessageLanguage(): string {
     return this.config.get<string>('commitMessageLanguage', 'english');
   }
+
+  /**
+   * Whether to generate a detailed commit body in addition to the subject line.
+   *
+   * When `true`, the AI is instructed to produce a subject line followed by a
+   * blank line and a bullet-point breakdown of changes. When `false`, only the
+   * single-line subject is generated.
+   *
+   * Corresponds to `starCommitAI.includeCommitBody`.
+   * Default: `true`.
+   */
+  get includeCommitBody(): boolean {
+    return this.config.get<boolean>('includeCommitBody', true);
+  }
 }

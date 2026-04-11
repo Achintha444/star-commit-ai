@@ -113,4 +113,18 @@ export interface GenerateOptions {
    * Defaults to `"english"` when omitted.
    */
   language?: string;
+
+  /**
+   * Whether to generate a detailed commit body in addition to the subject line.
+   *
+   * When `true`, the provider appends a blank line followed by a bullet-point
+   * breakdown of the changes after the subject line. When `false`, only the
+   * single-line subject is generated.
+   *
+   * Ignored when a custom `promptTemplate` is supplied — in that case the
+   * template controls the output format entirely.
+   *
+   * Defaults to `true` when omitted.
+   */
+  includeCommitBody?: boolean;
 }
