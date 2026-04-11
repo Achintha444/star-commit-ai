@@ -44,6 +44,20 @@ Control what gets sent to the AI:
 
 Override the built-in prompt with your own using a custom template. Use `{diff}` as a placeholder for the diff content. This lets you enforce team conventions, specify output formats, or add extra context.
 
+### Detailed Commit Body Generation
+
+By default, Star Commit AI generates a full commit message with a subject line **and** a detailed body:
+
+```
+feat: add user authentication
+
+- Implement JWT-based auth with refresh token rotation
+- Add login and logout REST endpoints
+- Wire up auth middleware for protected routes
+```
+
+The body uses bullet points scaled to the complexity of the diff — small changes get a single bullet, large refactors get a full breakdown. Toggle this off with `starCommitAI.includeCommitBody: false` to get subject-only messages.
+
 ### Conventional Commits Format
 
 The built-in prompt instructs the AI to produce commit messages following the [Conventional Commits](https://www.conventionalcommits.org/) specification (`feat:`, `fix:`, `chore:`, etc.), keeping your history clean and parseable.
@@ -99,6 +113,7 @@ All settings are under the `starCommitAI` namespace and can be configured in you
 | `starCommitAI.diffMode` | string | `"all"` | Which changes to send: `"all"` (staged + unstaged) or `"staged"` (staged only). |
 | `starCommitAI.promptTemplate` | string | `""` | Custom prompt template. Use `{diff}` as the diff placeholder. Leave empty to use the built-in prompt. |
 | `starCommitAI.maxDiffLength` | number | `8000` | Maximum number of characters to send from the diff. Longer diffs are truncated. |
+| `starCommitAI.includeCommitBody` | boolean | `true` | Include a detailed bullet-point body below the subject line. Set to `false` for subject-only messages. |
 | `starCommitAI.commitMessageLanguage` | string | `"english"` | The natural language to write the commit message in (e.g. `"english"`, `"spanish"`, `"japanese"`). |
 
 ---

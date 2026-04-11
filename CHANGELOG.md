@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.8] - 2026-04-11
+
+### Added
+- Commit body generation — AI now produces a subject line plus a detailed bullet-point breakdown of changes
+- New setting `starCommitAI.includeCommitBody` (default: `true`) to toggle between subject-only and subject + body output
+- Prompt templates moved to external JSON file (`src/prompts/prompts.json`) for easier customization
+
 ## [1.0.7] - 2026-04-09
 
 ### Fixed
